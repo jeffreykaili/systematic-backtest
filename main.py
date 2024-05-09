@@ -1,5 +1,5 @@
 from utils.FinanceDataReader import FinanceDataReader
-from strategies.EWMACrossoverStrategy import EWMACrossover
+from utils.EWMACrossoverStrategy import EWMACrossover
 from Backtest import Backtest
 
 data_reader = FinanceDataReader()

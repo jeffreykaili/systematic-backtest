@@ -1,7 +1,13 @@
-from strategies.Strategy import Strategy
+import os
+import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+current_dir = os.path.dirname(os.path.realpath(__file__))
+if current_dir not in sys.path: 
+    sys.path.insert(0, current_dir)
+from Strategy import Strategy
 
 class EWMACrossover(Strategy):
     """
@@ -97,7 +103,7 @@ class EWMACrossover(Strategy):
         return signals
     
 if __name__ == "__main__":
-    from utils.FinanceDataReader import FinanceDataReader
+    from FinanceDataReader import FinanceDataReader
     data_reader = FinanceDataReader()
 
     df = data_reader.get_historical_data("GOOG")

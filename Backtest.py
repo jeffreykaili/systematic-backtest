@@ -1,4 +1,4 @@
-from strategies.Strategy import Strategy
+from utils.Strategy import Strategy
 import pandas as pd 
 import matplotlib.pyplot as plt
 import numpy as np 
@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
     df = data_reader.get_historical_data("AAPL")
     
-    from strategies.EWMACrossoverStrategy import EWMACrossover
+    from utils.EWMACrossoverStrategy import EWMACrossover
     pd.set_option('display.max_rows', None)
     bt = Backtest(EWMACrossover, df, column_name='Close')
     bt.run()
