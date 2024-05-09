@@ -73,8 +73,8 @@ class Backtest:
         x = np.arange(0, len(self.data['Mean Return Percent']))
         y_mean = np.full_like(x, mean_return)
         plt.figure(figsize=(10, 6))  
-        plt.plot(x, y_mean, 'k-', label='Mean P&L')
-        plt.plot(x, self.data['Mean Return Percent'], 'g-', label='P&L (%)', linewidth=2)
+        plt.plot(x, y_mean, 'k-', label='Average')
+        plt.plot(x, self.data['Mean Return Percent'], 'g-', label='Return (%)', linewidth=2)
         
         colors = ['blue', 'red', 'green', 'purple', 'orange']  
         alpha_values = [0.1 + 0.03 * i for i in range(5, 0, -1)]  
@@ -83,16 +83,16 @@ class Backtest:
             y_minus_sd = y_mean - i * std
             plt.fill_between(x, y_minus_sd, y_plus_sd, color=colors[i - 1], alpha=alpha_values[i - 1], label=f'±{i} SD')
         
-        plt.title('P&L Cone Chart')
-        plt.xlabel('Date')
-        plt.ylabel('P&L (%)')
+        plt.title('Return (%) Volatility')
+        plt.xlabel('Time')
+        plt.ylabel('Return (%)')
         plt.legend()
         plt.show()
 
         plt.figure(figsize=(10, 5))  
         self.data['position'].plot(label='Value', color='red') 
         plt.title('Portfolio Value')
-        plt.xlabel('Date') 
+        plt.xlabel('Time') 
         plt.ylabel('Value')
         plt.legend()  
         plt.grid(True) 

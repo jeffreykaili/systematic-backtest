@@ -93,9 +93,9 @@ class EWMACrossover(Strategy):
             fst.plot(label='Fast EWMA', color='red') 
             slow.plot(label='Slow EWMA', color='blue')
 
-            plt.title('Price and EWMA Crossover')
+            plt.title('EWMA Crossover')
             plt.xlabel('Date') 
-            plt.ylabel('Value')
+            plt.ylabel('Price')
             plt.legend()  
             plt.grid(True) 
             plt.show() 
@@ -106,6 +106,6 @@ if __name__ == "__main__":
     from FinanceDataReader import FinanceDataReader
     data_reader = FinanceDataReader()
 
-    df = data_reader.get_historical_data("GOOG")
+    df = data_reader.get_historical_data("MSFT")
     crossover = EWMACrossover(df, show_crossover_graphs=True)
     crossover.generate_signals()
