@@ -52,13 +52,16 @@ class Backtest:
 
         self.data['P&L'] = self.data['P&L'].fillna(0)
         self.data['Cumulative P&L'] = self.data['P&L'].cumsum()
+
+        self.data['Mean Return Percent'] = self.data['signal'].mul(self.data['Percent Change'])
         print(self.data)
 
-        mean_return = self.data.loc[fvi:, 'P&L'].mean()
-        std = self.data.loc[fvi:, 'P&L'].std()
+        mean_return = self.data.loc[fvi:, 'Mean Return Percent'].mean()
+        std = self.data.loc[fvi:, 'Mean Return Percent'].std()
         z_score = norm.ppf(0.01)
         estimated_tail_loss = mean_return + (z_score * std)
 
+        print("Values given as a percentage!")
         table = PrettyTable()
         table.field_names = ["Data", "Value"]
         table.add_row(["Principal Investment", self.initial_capital])
@@ -67,22 +70,22 @@ class Backtest:
         table.add_row(["ETL (risk)", estimated_tail_loss])
         print(table)
         
-        x = np.arange(0, len(self.data['P&L']))
+        x = np.arange(0, len(self.data['Mean Return Percent']))
         y_mean = np.full_like(x, mean_return)
         plt.figure(figsize=(10, 6))  
         plt.plot(x, y_mean, 'k-', label='Mean P&L')
-        plt.plot(x, self.data['P&L'], 'g-', label='Actual P&L', linewidth=2)
+        plt.plot(x, self.data['Mean Return Percent'], 'g-', label='P&L (%)', linewidth=2)
         
-        colors = ['blue', 'red', 'green', 'purple']  
-        alpha_values = [0.4, 0.3, 0.2, 0.1]  
-        for i in range(1, 5):  
+        colors = ['blue', 'red', 'green', 'purple', 'orange']  
+        alpha_values = [0.1 + 0.03 * i for i in range(5, 0, -1)]  
+        for i in range(1, 6):  
             y_plus_sd = y_mean + i * std
             y_minus_sd = y_mean - i * std
             plt.fill_between(x, y_minus_sd, y_plus_sd, color=colors[i - 1], alpha=alpha_values[i - 1], label=f'±{i} SD')
         
         plt.title('P&L Cone Chart')
-        plt.xlabel('Time')
-        plt.ylabel('P&L')
+        plt.xlabel('Date')
+        plt.ylabel('P&L (%)')
         plt.legend()
         plt.show()
 
